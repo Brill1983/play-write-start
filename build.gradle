@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.brill'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+//добавить распознование UTF-8
+dependencies {
+    implementation 'com.microsoft.playwright:playwright:1.44.0'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
