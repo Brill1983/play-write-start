@@ -1,14 +1,33 @@
 plugins {
     id 'java'
+    id 'idea'
 }
 
 group = 'ru.brill'
 version = '1.0-SNAPSHOT'
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    project {
+        languageLevel = 17
+    }
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
 repositories {
     mavenCentral()
 }
-//добавить распознование UTF-8
+
 dependencies {
     implementation 'com.microsoft.playwright:playwright:1.44.0'
     testImplementation platform('org.junit:junit-bom:5.9.1')
@@ -16,5 +35,6 @@ dependencies {
 }
 
 test {
+    systemProperty "file.encoding", "utf-8"
     useJUnitPlatform()
 }

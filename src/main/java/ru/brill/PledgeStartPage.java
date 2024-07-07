@@ -10,7 +10,7 @@ public class PledgeStartPage {
 
     public PledgeStartPage(Page page) {
         this.page = page;
-        this.tab = page.getByText("По информации о залогодателе");
+        this.tab = page.locator("//a[text()='По информации о залогодателе']");
     }
 
     public void navigate() {
