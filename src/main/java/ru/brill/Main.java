@@ -1,6 +1,7 @@
 package ru.brill;
 
 import com.microsoft.playwright.*;
+import ru.brill.dto.PledgeResultDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
             BrowserContext context = browser.newContext(/*new Browser.NewContextOptions().setViewportSize(1920, 1080)*/);
             Page page = context.newPage();
             PledgeStartPage startPage = new PledgeStartPage(page);
@@ -19,14 +20,14 @@ public class Main {
             personInfoPage.setLastName("Ким");
             personInfoPage.setFirstName("Игорь");
 //            personInfoPage.setFatherName("Станиславович");
-//            personInfoPage.setFatherName("Вячеславович");
+            personInfoPage.setFatherName("Вячеславович");
 //            personInfoPage.setBirthday("12.06.1971");
-//            personInfoPage.setBirthday("22.03.1979");
-            page.waitForTimeout(2180);
+            personInfoPage.setBirthday("22.03.1979");
             personInfoPage.pushFindButton();
 
             PledgeResultPage resultPage = new PledgeResultPage(page);
-            List<List<String>> results = resultPage.getResult();
+            PledgeResultDto receivedResult = resultPage.getResult();
+            List<List<String>> results = receivedResult.getResult();
             int n = 0;
             for (List<String> result : results) {
                 n++;

@@ -2,9 +2,13 @@ package ru.brill;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import ru.brill.dto.PledgeResultDto;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.brill.utils.Constants.IP_RESTRICTED;
+import static ru.brill.utils.Constants.NOTHING_FOUND;
 
 public class PledgeResultPage {
 
@@ -24,13 +28,25 @@ public class PledgeResultPage {
         return searchParam.textContent();
     }
 
-    public List<List<String>> getResult() {
+    public PledgeResultDto getResult() {
         searchParam.isEnabled();
         List<List<String>> results = new ArrayList<>();
+        PledgeResultDto result = new PledgeResultDto();
 
         if (noResultFound.isVisible()) {
-            results.add(List.of(noResultFound.textContent().trim()));
-            return results;
+            String resultStr = noResultFound.textContent().trim();
+            results.add(List.of(resultStr));
+            result.setResult(results);
+
+            if (resultStr.equals(NOTHING_FOUND)) {
+                result.setIsFound(false);
+                result.setIsIpRestricted(false);
+            } else if (resultStr.equals(IP_RESTRICTED)) {
+                result.setIsFound(false);
+                result.setIsIpRestricted(true);
+            }
+            result.setIsFound(false);
+            return result;
         }
 
         if (resultTable.isEnabled()) {
@@ -41,8 +57,10 @@ public class PledgeResultPage {
                         .toList();
                 results.add(oneResult);
             }
-            return results;
+            result.setResult(results);
+            result.setIsFound(true);
+            return result;
         }
-        return results;
+        return result;
     }
 }
