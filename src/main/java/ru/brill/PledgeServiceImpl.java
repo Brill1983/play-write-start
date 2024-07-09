@@ -2,11 +2,13 @@ package ru.brill;
 
 import com.microsoft.playwright.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 import ru.brill.dto.PersonInfoDto;
 import ru.brill.dto.PledgeResultDto;
 
 import static ru.brill.utils.Constants.DATE_FORMATTER;
 
+@Component
 public class PledgeServiceImpl implements PledgeService {
 
     @Override
